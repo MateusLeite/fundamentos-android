@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.administrador.myapplication.R;
+import com.example.administrador.myapplication.model.entities.Client;
 
 /**
  * Created by Administrador on 20/07/2015.
@@ -16,7 +17,7 @@ public class LoginActivity extends AppCompatActivity {
     Button buttonLogin;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         bindLoginButton();

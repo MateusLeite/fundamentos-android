@@ -53,4 +53,8 @@ public class ClientListAdapter extends BaseAdapter {
 
         return veiw;
     }
+
+    public void setClients(List<Client> clientList) {
+        this.clientList = clientList;
+    }
 }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.administrador.myapplication.R;
-import com.example.administrador.myapplication.model.entities.Client;
 
 /**
  * Created by Administrador on 20/07/2015.
@@ -28,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToMainActivity = new Intent(LoginActivity.this, MainActivity.class);
+                Intent goToMainActivity = new Intent(LoginActivity.this, ClientListActivity.class);
                 startActivity(goToMainActivity);
             }
         });

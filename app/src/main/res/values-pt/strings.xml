@@ -12,4 +12,9 @@
     <string name="address">Endereço</string>
     <string name="save">Salvar</string>
     <string name="add">Add</string>
+    <string name="required_field">Campo obrigatório!</string>
+    <string name="sucess">Sucesso!</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
+    <string name="delete_sucess">Deletado com sucesso!</string>
 </resources>

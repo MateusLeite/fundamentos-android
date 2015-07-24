@@ -94,7 +94,7 @@ public class ClientListActivity extends AppCompatActivity {
             intent.putExtra(ClientRegisterActivity.CLIENT_PARAM, (Parcelable)client);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menuDelete){
-            AlertDialog.Builder alert = new AlertDialog.Builder(ClientListActivity.this)
+            new AlertDialog.Builder(ClientListActivity.this)
                     .setMessage(R.string.confirm_progress)
                     .setTitle(R.string.confirm)
                     .setPositiveButton(R.string.yes ,new DialogInterface.OnClickListener(){
@@ -109,9 +109,7 @@ public class ClientListActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
-                    });
-            alert.create();
-            alert.show();
+                    }).create().show();
         }
 
         return super.onContextItemSelected(item);

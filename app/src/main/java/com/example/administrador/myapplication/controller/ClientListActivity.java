@@ -1,5 +1,7 @@
 package com.example.administrador.myapplication.controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -92,9 +94,24 @@ public class ClientListActivity extends AppCompatActivity {
             intent.putExtra(ClientRegisterActivity.CLIENT_PARAM, (Parcelable)client);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menuDelete){
-            client.delete();
-            refreshClientList();
-            Toast.makeText(ClientListActivity.this, getString(R.string.delete_sucess), Toast.LENGTH_LONG).show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(ClientListActivity.this)
+                    .setMessage(R.string.confirm_progress)
+                    .setTitle(R.string.confirm)
+                    .setPositiveButton(R.string.yes ,new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            client.delete();
+                            refreshClientList();
+                            Toast.makeText(ClientListActivity.this, getString(R.string.delete_sucess), Toast.LENGTH_LONG).show();
+                        }
+                    }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            alert.create();
+            alert.show();
         }
 
         return super.onContextItemSelected(item);

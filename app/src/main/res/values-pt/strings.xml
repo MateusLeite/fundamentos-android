@@ -17,4 +17,9 @@
     <string name="edit">Editar</string>
     <string name="delete">Deletar</string>
     <string name="delete_sucess">Deletado com sucesso!</string>
+    <string name="confirm_progress">Deseja realmente prosseguir?</string>
+    <string name="confirm">Confirmação</string>
+    <string name="yes">Sim</string>
+    <string name="cancel">Cancel</string>
+    <string name="no">Não</string>
 </resources>

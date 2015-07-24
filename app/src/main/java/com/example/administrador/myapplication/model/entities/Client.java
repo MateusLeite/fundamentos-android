@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.administrador.myapplication.model.persistence.MemoryClientRepository;
+import com.example.administrador.myapplication.model.persistence.SQLiteClientRepository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,10 +14,15 @@ import java.util.List;
  */
 public class Client implements Serializable, Parcelable {
 
+    private Integer id;
     private String name;
     private Integer age;
     private String phone;
     private String address;
+
+    public Integer getId() { return id; }
+
+    public void setId(Integer id) { this.id = id; }
 
     public Client() {
         super();
@@ -57,34 +63,39 @@ public class Client implements Serializable, Parcelable {
 
         Client client = (Client) o;
 
+        if (id != null ? !id.equals(client.id) : client.id != null) return false;
         if (name != null ? !name.equals(client.name) : client.name != null) return false;
-        return !(age != null ? !age.equals(client.age) : client.age != null);
+        if (age != null ? !age.equals(client.age) : client.age != null) return false;
+        if (phone != null ? !phone.equals(client.phone) : client.phone != null) return false;
+        return !(address != null ? !address.equals(client.address) : client.address != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }
 
-
     public  void save(){
-        MemoryClientRepository.getInstance().save(this);
+        SQLiteClientRepository.getInstance().save(this);
     }
 
     public  static List<Client> getAll(){
-        return MemoryClientRepository.getInstance().getAll();
+        return SQLiteClientRepository.getInstance().getAll();
+    }
+
+    public void delete() {
+        SQLiteClientRepository.getInstance().delete(this);
     }
 
     @Override
     public String toString() {
         return getName();
-    }
-
-    public void delete() {
-        MemoryClientRepository.getInstance().delete(this);
     }
 
     @Override
@@ -94,6 +105,7 @@ public class Client implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id == null ? -1 : id);
         dest.writeString(name == null ? "" : name);
         dest.writeString(phone == null ? "" : phone);
         dest.writeString(address == null ? "" : address);
@@ -101,6 +113,8 @@ public class Client implements Serializable, Parcelable {
     }
 
     public void readToParcel(Parcel in) {
+        int partialId = in.readInt();
+        id = partialId == -1 ? null : partialId ;
         name = in.readString();
         phone = in.readString();
         address = in.readString();

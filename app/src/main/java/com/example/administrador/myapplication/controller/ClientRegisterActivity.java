@@ -65,7 +65,9 @@ public class ClientRegisterActivity extends AppCompatActivity {
     }
 
     private void bindClient(){
-        client = new Client();
+        if(client == null){
+            client = new Client();
+        }
         client.setName(editTextName.getText().toString());
         client.setAge(Integer.valueOf(editTextAge.getText().toString()));
         client.setPhone(editTextPhone.getText().toString());

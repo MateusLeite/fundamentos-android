@@ -18,7 +18,7 @@ public class Client implements Serializable, Parcelable {
     private String name;
     private Integer age;
     private String phone;
-    private String address;
+    private ClientAddress address;
 
     public Integer getId() { return id; }
 
@@ -52,9 +52,14 @@ public class Client implements Serializable, Parcelable {
 
     public void setPhone(String phone) { this.phone = phone; }
 
-    public String getAddress() { return address; }
+    public ClientAddress getAddress() {
+        if (address == null) {
+            address = new ClientAddress();
+        }
+        return address;
+    }
 
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(ClientAddress address) { this.address = address; }
 
     @Override
     public boolean equals(Object o) {
@@ -108,8 +113,8 @@ public class Client implements Serializable, Parcelable {
         dest.writeInt(id == null ? -1 : id);
         dest.writeString(name == null ? "" : name);
         dest.writeString(phone == null ? "" : phone);
-        dest.writeString(address == null ? "" : address);
         dest.writeInt(age == null ? -1 : age);
+        dest.writeParcelable(address, flags);
     }
 
     public void readToParcel(Parcel in) {
@@ -117,9 +122,9 @@ public class Client implements Serializable, Parcelable {
         id = partialId == -1 ? null : partialId ;
         name = in.readString();
         phone = in.readString();
-        address = in.readString();
         int partialAge = in.readInt();
         age = partialAge == -1 ? null : partialAge;
+        address = in.readParcelable(ClientAddress.class.getClassLoader());
     }
 
     public static  final Parcelable.Creator<Client> CREATOR = new Parcelable.Creator<Client>(){

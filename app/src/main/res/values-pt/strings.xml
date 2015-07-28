@@ -22,4 +22,6 @@
     <string name="yes">Sim</string>
     <string name="cancel">Cancel</string>
     <string name="no">Não</string>
+    <string name="cep">CEP</string>
+    <string name="find">Pesquisar</string>
 </resources>

@@ -75,7 +75,7 @@ public class ClientListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menuAdd){
-            Intent goToMainActivity = new Intent(ClientListActivity.this, ClientRegisterActivity.class);
+            Intent goToMainActivity = new Intent(ClientListActivity.this, ClientPersistActivity.class);
             startActivity(goToMainActivity);
         }
         return super.onOptionsItemSelected(item);
@@ -90,8 +90,8 @@ public class ClientListActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menuEdit){
-            Intent intent = new Intent(ClientListActivity.this, ClientRegisterActivity.class);
-            intent.putExtra(ClientRegisterActivity.CLIENT_PARAM, (Parcelable)client);
+            Intent intent = new Intent(ClientListActivity.this, ClientPersistActivity.class);
+            intent.putExtra(ClientPersistActivity.CLIENT_PARAM, (Parcelable)client);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menuDelete){
             new AlertDialog.Builder(ClientListActivity.this)

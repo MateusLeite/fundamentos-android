@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="listViewClientes" type="id">Clients</item>
+    <item name="textViewName" type="id">Name</item>
+    <item name="textViewAge" type="id">Age</item>
+</resources>

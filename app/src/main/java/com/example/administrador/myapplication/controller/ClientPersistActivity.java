@@ -138,7 +138,10 @@ public class ClientPersistActivity extends AppCompatActivity {
 
         @Override
         protected ClientAddress doInBackground(String... params) {
-            return CepService.getAdrressBy(params[0]);
+            if(null != params){
+                return CepService.getAdrressBy(params[0]);
+            }
+            return null;
         }
 
         @Override

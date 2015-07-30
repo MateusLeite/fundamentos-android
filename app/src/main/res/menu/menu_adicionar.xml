@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/menuAdd"
-        android:title="@string/add"
-        android:icon="@drawable/ic_action_add"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share"
         app:showAsAction="always"/>
 </menu>

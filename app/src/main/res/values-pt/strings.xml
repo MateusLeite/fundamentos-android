@@ -27,4 +27,6 @@
     <string name="loading">Carregando</string>
     <string name="zip_invalid">CEP Inválido</string>
     <string name="share">Compartilhar</string>
+    <string name="user_invalid">Usuário inválido</string>
+    <string name="exit">Sair</string>
 </resources>

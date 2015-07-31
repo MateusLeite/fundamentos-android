@@ -64,7 +64,7 @@ public class ClientListActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.menuAdd){
             // Create the text message with a string
             final Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Seu texto aqui...");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Compartilhado com sucesso");
             sendIntent.setType(HTTP.PLAIN_TEXT_TYPE);
 
             // Create intent to show the chooser dialog
@@ -75,6 +75,10 @@ public class ClientListActivity extends AppCompatActivity {
                 startActivity(chooser);
             }
             return true;
+        }else if(item.getItemId() == R.id.menuExit){
+            Intent goToIntent = new Intent(ClientListActivity.this, LoginActivity.class);
+            startActivity(goToIntent);
+            ClientListActivity.this.finish();
         }
         return super.onOptionsItemSelected(item);
     }

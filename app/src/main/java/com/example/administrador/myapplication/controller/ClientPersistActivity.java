@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrador.myapplication.R;
@@ -37,12 +39,12 @@ public class ClientPersistActivity extends AppCompatActivity {
     private EditText editTextPhone;
     private EditText editTextAddress;
     private EditText editTextCep;
-    private EditText editTextTipoLogradouro;
-    private EditText editTextLogradouro;
-    private EditText editTextBairro;
-    private EditText editTextCidade;
-    private EditText editTextEstado;
-    private Button buttonFindCEP;
+    private TextView editTextTipoLogradouro;
+    private TextView editTextLogradouro;
+    private TextView editTextBairro;
+    private TextView editTextCidade;
+    private TextView editTextEstado;
+    private TextView buttonFindCEP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ClientPersistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         bindFields();
         getParameter();
+        hideFields(null == editTextTipoLogradouro.getText() || editTextTipoLogradouro.getText().toString().trim().isEmpty());
     }
 
     private void bindFields() {
@@ -79,24 +82,42 @@ public class ClientPersistActivity extends AppCompatActivity {
         editTextAge = (EditText) findViewById(R.id.editTextAge);
         editTextPhone = (EditText)findViewById(R.id.editTextPhone);
         editTextCep = (EditText)findViewById(R.id.editTextCep);
-        editTextCep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editTextCep.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_search, 0);
+        editTextCep.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    new GetAdressByCep().execute(editTextCep.getText().toString());
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (editTextCep.getRight() - editTextCep.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if(FormHelper.requireValidate(ClientPersistActivity.this, editTextCep)){
+                            new GetAdressByCep().execute(editTextCep.getText().toString());
+                        }else{
+                            hideFields(true);
+                        }
+                    }
                 }
+                return false;
             }
         });
-        editTextTipoLogradouro = (EditText)findViewById(R.id.editTextTipoLogradouro);
-        editTextTipoLogradouro.setVisibility(View.INVISIBLE);
-        editTextLogradouro = (EditText) findViewById(R.id.editTextLogradouro);
-        editTextLogradouro.setVisibility(View.INVISIBLE);
-        editTextBairro = (EditText) findViewById(R.id.editTexBairro);
-        editTextBairro.setVisibility(View.INVISIBLE);
-        editTextCidade = (EditText) findViewById(R.id.editTextCidade);
-        editTextCidade.setVisibility(View.INVISIBLE);
-        editTextEstado = (EditText) findViewById(R.id.editTextEstado);
-        editTextEstado.setVisibility(View.INVISIBLE);
+        editTextTipoLogradouro = (TextView)findViewById(R.id.editTextTipoLogradouro);
+        editTextLogradouro = (TextView) findViewById(R.id.editTextLogradouro);
+        editTextBairro = (TextView) findViewById(R.id.editTexBairro);
+        editTextCidade = (TextView) findViewById(R.id.editTextCidade);
+        editTextEstado = (TextView) findViewById(R.id.editTextEstado);
+    }
+
+    private void hideFields(boolean hide) {
+        if(hide){
+            editTextTipoLogradouro.setVisibility(View.INVISIBLE);
+            editTextLogradouro.setVisibility(View.INVISIBLE);
+            editTextBairro.setVisibility(View.INVISIBLE);
+            editTextCidade.setVisibility(View.INVISIBLE);
+            editTextEstado.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
@@ -149,11 +170,17 @@ public class ClientPersistActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menuSave){
             if(FormHelper.requireValidate(ClientPersistActivity.this, editTextName, editTextAge, editTextPhone, editTextCep)){
-                bindClient();
-                client.save();
+                if(editTextTipoLogradouro.getVisibility() == View.VISIBLE){
+                    bindClient();
+                    client.save();
 
-                Toast.makeText(ClientPersistActivity.this, R.string.sucess, Toast.LENGTH_LONG).show();
-                ClientPersistActivity.this.finish();
+                    Toast.makeText(ClientPersistActivity.this, R.string.sucess, Toast.LENGTH_LONG).show();
+                    ClientPersistActivity.this.finish();
+                }else{
+                    editTextCep.setError(getString(R.string.zip_invalid));
+                }
+            }else{
+                hideFields(true);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -171,7 +198,7 @@ public class ClientPersistActivity extends AppCompatActivity {
         client.getAddress().setLogradouro(editTextLogradouro.getText().toString());
         client.getAddress().setBairro(editTextBairro.getText().toString());
         client.getAddress().setCidade(editTextCidade.getText().toString());
-        client.getAddress().setEstado(editTextBairro.getText().toString());
+        client.getAddress().setEstado(editTextEstado.getText().toString());
     }
 
     private void bindForm(Client client){
@@ -237,6 +264,7 @@ public class ClientPersistActivity extends AppCompatActivity {
                 editTextEstado.setVisibility(View.VISIBLE);
             }else{
                 Toast.makeText(ClientPersistActivity.this, R.string.zip_invalid, Toast.LENGTH_LONG).show();
+                hideFields(true);
             }
 
             progressDialog.dismiss();

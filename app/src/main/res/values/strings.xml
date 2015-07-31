@@ -27,4 +27,6 @@
     <string name="loading">Loading</string>
     <string name="zip_invalid">Invalid zip code</string>
     <string name="share">Share</string>
+    <string name="user_invalid">Invalid User</string>
+    <string name="exit">Exit</string>
 </resources>

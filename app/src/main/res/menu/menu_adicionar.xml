@@ -7,4 +7,10 @@
         android:title="@string/share"
         android:icon="@drawable/ic_share"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menuExit"
+        android:title="@string/exit"
+        android:icon="@drawable/ic_exit"
+        app:showAsAction="always"/>
 </menu>
